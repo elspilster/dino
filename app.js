@@ -6,7 +6,7 @@ async function transcribe(blob){
     const res=await fetch('/api/transcribe',{method:'POST',headers:{'Content-Type':blob.type||'audio/webm'},body:blob});
     const raw=await res.text();let data={};try{data=JSON.parse(raw)}catch{}if(!res.ok||!data.text)throw new Error(data.error||('HTTP '+res.status+(raw?' — '+raw.slice(0,180):'')));
     const q=data.text.trim();bubble.textContent='You asked: '+q;askDino(q);
-  }catch(e){console.error('Dino transcription failed',e);status.textContent='MIC TEST ERROR';bubble.textContent='Error: '+(e?.message||String(e))}
+  }catch(e){console.error('Dino transcription failed',e);status.textContent='I couldn’t hear that. Try again!';bubble.textContent='Tap TALK TO DINO and try again.'}
 }
 async function startRecording(){
   if(recording){recorder.stop();return}

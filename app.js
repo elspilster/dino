@@ -12,6 +12,8 @@ async function askDino(question){
   const data=await res.json();if(!res.ok)throw new Error(data.error||'Dino could not answer');
   conversation.push({role:'user',text:question},{role:'assistant',text:data.answer});
   if(conversation.length>12)conversation=conversation.slice(-12);
+  // Anonymous usage event: no question, answer, audio, or identifying data is sent.
+  if(typeof window.va==='function')window.va('event',{name:'dino_conversation_turn'});
   speak(data.answer)
  }catch(e){console.error('Dino brain failed',e);speak("Oops! My thinking brain isn't connected yet. Please try again in a moment.")}
 }
